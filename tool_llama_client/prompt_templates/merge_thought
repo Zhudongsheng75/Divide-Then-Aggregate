@@ -1,0 +1,6 @@
+You are a text editor assistant with strong logical capabilities, adept at handling complex text summarization tasks. Next, I will give you {num} segments of thought, each describing the thinking process of an assistant when utilizing different functional tools to solve user queries. These functional tools can be invoked in parallel. You need to integrate these thoughts into a new, parallel thought using the first-person perspective. 
+
+Below are the thoughts that need to be integrated:
+{thoughts}
+
+Please do not add any prefix, directly provide the merged parallel thought:

@@ -1,0 +1,23 @@
+You are AutoGPT, possessing powerful capabilities to optimize the API function call process.
+In the following, I will provide the contents of "QUERY" and "CONVERSATIONS".
+"QUERY" represents the user's request, which is the problem to be solved.
+"CONVERSATIONS" records the entire process of solving "QUERY" through the invocation of related API functions, encompassing information from "system," "user," and "assistant." Here, "system" represents system configuration information, and "user" refers to information provided by the user. The "assistant" part documents the detailed steps of problem-solving, primarily divided into two main sections. The first part is "value," where "Thought" shows the thought process of the assistant during the function call, "Action" refers to the specific function name called, and "Action Input" is the parameters passed to the function. The second part is "function," which displays the actual results obtained after calling the API function.
+Your task is to adjust "CONVERSATIONS" based on "QUERY" according to the following requirements:
+1. First, you need to determine whether there are severe logical confusion issues in "CONVERSATIONS". If the confusion is so severe that it cannot be amended, deem "CONVERSATIONS" as unreasonable, and answer "No" in the "reasonable" field of your response. If there is no logical confusion or only minor issues, deem "CONVERSATIONS" as reasonable and answer "Yes". Note, if the answer is "No", disregard all subsequent requirements and return the response directly.
+2. Then, analyze in "CONVERSATIONS" which steps can be called in parallel, meaning these steps do not have a dependency relationship. Whether or not there are steps that can be parallelized, provide convincing reasons in the "analysis" field of your response.
+3. If there are steps that can be parallelized, answer "Yes" in the "parallelizable" field; otherwise, answer "No". If the answer is "No", disregard all subsequent requirements and return the response directly.
+4. When the answer to "parallelizable" is "Yes", provide a complete function call process. The process should be represented as a Directed Acyclic Graph (DAG), using the sequence numbers of "steps" to build the DAG, and must include all serial and parallel steps end-to-end. Provide this in the "DAG" field of your response.
+5. Finally, you may need to make appropriate adjustments to certain steps of "CONVERSATIONS". These adjustments mainly involve the following aspects: a. Under the "value" field of some steps, "Thought" might have slight logical confusion, and you need to adjust it to ensure coherence in context; b. All steps involved in parallel must trace their "Thought" content back to parent nodes in the DAG to establish correct logical connections; c. If preceding steps involve parallel processing, the "Thought" of nodes aggregating parallel branches also needs to be modified accordingly to maintain logical consistency throughout. If the current step requires the aforementioned modifications, mark "operation" as "Modification", and provide the modified "Thought" content in the "new_value" field (no changes needed in the "from" and "function" fields). If the current step does not require modifications, mark "operation" as "No". Note that the last step is the endpoint of the DAG; please ensure it does not appear anywhere other than the endpoint. Please detail these modifications in the "optimized_conversations" field of the answer.
+Please return your answer in JSON format, as shown in the example below:
+{"reasonable": "Yes", "analysis": "...", "parallelizable": "Yes", "DAG": "1->2,2->3,3->4,2->5,4->6,5->6", "optimized_conversations": [{"step":1, "operation":"No"}, {"step":2, "operation":"No"}, {"step":3, "operation":"No"}, {"step":4, "operation":"No"}, {"step":5, "operation":"Modification", "new_value": "..."}, {"step":6, "operation":"No"}]}
+
+Now, please respond based on the "QUERY" and "CONVERSATIONS":
+<QUERY>
+{query}
+</QUERY>
+
+<CONVERSATIONS>
+{conversations}
+</CONVERSATIONS>
+
+Your response：
