@@ -121,24 +121,33 @@ response = requests.post(url, headers=headers, data=json.dumps(data))
 print(response.text)
 ```
 ## Infer
-### Inference answers
-1. backbone_model
-   - chatgpt_function
-   - toolllama_net
-2. method
-   - CoT@1
-   - DFS_parallel_llama_woFilter_w2
-   - DFS_parallel_GPT_woFilter_w2
-   - DFS_woFilter_w2
-3. test_set
-   - G1_instruction
-   - G2_instruction
-   - G3_instruction
-   - G1_category
-   - G2_category
-   - G1_tool
 
-这边需要贴我们的模型地址，然后上面的那些个超参也都需要解释一下并指出哪些是我们的。
+这边需要贴我们的模型地址，搞一个目录索引；
+
+### Parameter Description
+
+- **backbone_model**  
+Used to select the type of model，GPT-series models or Open-source models.
+  - **chatgpt_function**: GPT-series models
+  - **toolllama_net**: Open-source models
+- **method**  
+The specific implementation method of Tool Learning.
+  - **CoT@1**: The CoT/ReAct method, which is repeatedly mentioned in the paper, refers to ReAct in the experiments;
+  - **DFS_woFilter_w2**: The DFSDT method in the experiments of the paper; 
+  - **DFS_parallel_GPT_woFilter_w2**: It is used exclusively for GPT-series models, referring to the Parallel method in the paper's GPT-series;
+  - **DFS_parallel_llama_woFilter_w2**: That is, our Divide-Then-Aggregate method.
+- **test_set**  
+The six subsets in the benchmark.
+   - **G1_instruction**: The I1-Inst. in the experiments of the paper;
+   - **G2_instruction:** The I2-Inst. in the experiments of the paper;
+   - **G3_instruction**: The I3-Inst. in the experiments of the paper;
+   - **G1_category**: The I1-Cat. in the experiments of the paper;
+   - **G2_category**: The I2-Cat. in the experiments of the paper;
+   - **G1_tool**: The I1-Tool in the experiments of the paper.
+
+run_qa_pipeline_multithread.sh文件里面有很多其他的参数，涉及到openai、toolbench、GPT_MODEL、llama_model_server_url等，都详细解释一下吧，必要的话也可以搞成参数。
+
+### Inference answers
 
 Run the following command to run the inference pipeline:
 ```bash
@@ -148,6 +157,8 @@ sh run_qa_pipeline_multithread.sh ${backbone_model} ${method} ${test_set} ""
 # Inference with trained llama model
 sh run_qa_pipeline_multithread.sh ${backbone_model} ${method} ${test_set} ${llama_model_server_url}
 ```
+
+最后再给一个我们的方法的示例
 
 ## Performance Evaluation
 First please convert the answer into GPT evaluatable format.
@@ -173,3 +184,5 @@ python step_calculate.py
 # Time cost, prompt token cost and completion token cost
 python time_token_cost.py
 ```
+
+整体步骤看起来有点乱，按执行顺序来说明吧
