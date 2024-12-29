@@ -1,16 +1,10 @@
-import torch
 import argparse
 from flask import Flask, request, jsonify
 
-from inference.LLM.tool_llama_model import ToolLLaMA
+from inference.LLM.tool_llama2_model import ToolLLaMA
 from common_utils import replace_llama_with_condense
 
 app = Flask(__name__)
-
-
-@app.route("/", methods=["GET"])
-def index():
-    return "Hello World!"
 
 
 @app.route("/llama_parse", methods=["POST"])
@@ -21,7 +15,6 @@ def llama_parse():
     llm.change_messages(data["messages"])
     output = llm.parse(functions=data["functions"], process_id=0)
 
-    # response_data = {"data": output}
     return jsonify(output)
 
 
@@ -33,7 +26,6 @@ def llama_parse_parallel():
     llm.change_messages(data["messages"])
     output = llm.parse_parallel(functions=data["functions"], process_id=0)
 
-    response_data = {"data": output}
     return jsonify(output)
 
 

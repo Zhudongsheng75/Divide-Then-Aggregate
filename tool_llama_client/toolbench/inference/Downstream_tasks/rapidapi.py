@@ -12,7 +12,6 @@ from toolbench.inference.LLM.davinci_model import Davinci
 from toolbench.inference.LLM.tool_llama_lora_model import ToolLLaMALoRA
 from toolbench.inference.LLM.tool_llama_model import ToolLLaMA
 from toolbench.inference.LLM.tool_llama_net import ToolLLaMANet
-from toolbench.inference.LLM.retriever import ToolRetriever
 from toolbench.inference.LLM.retriever_net import ToolRetrieverNet
 from toolbench.inference.Algorithms.single_chain import single_chain
 from toolbench.inference.Algorithms.DFS_serial import DFS_tree_search

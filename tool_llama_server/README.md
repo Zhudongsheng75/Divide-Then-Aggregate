@@ -1,5 +1,5 @@
 <div align= "center">
-    <h1>DTA-Llama</h1>
+    <h1>DTA-Llama Server</h1>
 </div>
 
 # Introduction
@@ -15,13 +15,22 @@ pip install -r requirements.txt
 # for llama3
 pip install -r requirements_llama3.txt
 ```
+
 2. start the server
 The model_path is the path to the trained model output directory.
-```bash
-# llama2. Note: llama2-13 needs more gpu memory, so we can specify cuda_device=0,1 or more
-sh run_server.sh ${cuda_device} ${model_path}
-
-# llama3
-sh run_server_llama3.sh ${cuda_device} ${model_path}
-
-```
+   - For llama2. Note: llama2-13b needs more gpu memory, so we can specify cuda_device=0,1 or more
+    ```bash
+    export CUDA_VISIBLE_DEVICES=$1
+    python llama_server.py --llama_model_path=$2 \
+                              --llama_template=tool-llama-parallel \
+                              --llama_device=cuda:0 \
+                              --port=8899 
+    ```
+   - For llama3
+   ```bash
+   export CUDA_VISIBLE_DEVICES=$1
+   python llama_server.py --llama_model_path=$2 \
+                          --llama_template=tool-llama-parallel \
+                          --llama_device=cuda:0 \
+                          --port=8899 
+   ```

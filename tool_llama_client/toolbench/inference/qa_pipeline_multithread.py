@@ -6,7 +6,6 @@ import argparse, os
 import sys
 
 sys.path.append(".")
-# from toolbench.inference.Downstream_tasks.rapidapi_multithread import pipeline_runner
 from toolbench.inference.Downstream_tasks.rapidapi import pipeline_runner
 
 
