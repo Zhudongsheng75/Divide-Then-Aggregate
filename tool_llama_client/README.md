@@ -162,22 +162,22 @@ sh run_qa_pipeline_multithread.sh ${backbone_model} ${method} ${test_set} ${llam
 
 
 ## Performance Evaluation
-First please convert the answer into GPT evaluatable format.
+1. Convert the answer into GPT evaluatable format.
 ```bash
 sh run_convert_answer.sh ${candidate_dir} 
 ```
 
-### Solvable Pass Rate
+2. Evaluate **Solvable Pass Rate**
 ```bash
 sh run_pass_rate.sh ${candidate_dir} ${test_set}
 ```
 
-### Solvable Win Rate
+3. Evaluate **Solvable Win Rate**
 ```bash
 sh run_preference.sh ${candidate_dir} ${test_set}
 ```
 
-### Time and Token Cost
+4. Evaluate **Time and Token Cost**
 ```bash
 # step cost
 python step_calculate.py
