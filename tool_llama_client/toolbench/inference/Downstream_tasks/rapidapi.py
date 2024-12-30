@@ -8,16 +8,11 @@ from tqdm import tqdm
 from termcolor import colored
 import random
 from toolbench.inference.LLM.chatgpt_function_model import ChatGPTFunction
-from toolbench.inference.LLM.davinci_model import Davinci
-from toolbench.inference.LLM.tool_llama_lora_model import ToolLLaMALoRA
-from toolbench.inference.LLM.tool_llama_model import ToolLLaMA
 from toolbench.inference.LLM.tool_llama_net import ToolLLaMANet
-from toolbench.inference.LLM.retriever_net import ToolRetrieverNet
 from toolbench.inference.Algorithms.single_chain import single_chain
 from toolbench.inference.Algorithms.DFS_serial import DFS_tree_search
 from toolbench.inference.Algorithms.DFS_parallel_llama import DFS_parallel_search_llama
 from toolbench.inference.Algorithms.DFS_parallel_GPT import DFS_parallel_search_GPT
-from toolbench.inference.Algorithms.DFS_parallel_qwen import DFS_parallel_search_Qwen
 from toolbench.inference.server import get_rapidapi_response
 from toolbench.utils import standardize, change_name, replace_llama_with_condense
 
@@ -500,27 +495,8 @@ class pipeline_runner:
 
     def get_backbone_model(self):
         args = self.args
-        if args.backbone_model == "toolllama":
-            # ratio = 4 means the sequence length is expanded by 4, remember to change the model_max_length to 8192 (2048 * ratio) for ratio = 4
-            ratio = int(args.max_sequence_length / args.max_source_sequence_length)
-            replace_llama_with_condense(ratio=ratio)
-            if args.lora:
-                backbone_model = ToolLLaMALoRA(
-                    base_name_or_path=args.model_path,
-                    model_name_or_path=args.lora_path,
-                    max_sequence_length=args.max_sequence_length,
-                )
-            else:
-                backbone_model = ToolLLaMA(
-                    model_name_or_path=args.model_path, max_sequence_length=args.max_sequence_length
-                )
-        else:
-            backbone_model = args.backbone_model
+        backbone_model = args.backbone_model
         return backbone_model
-
-    def get_retriever(self):
-        # return ToolRetriever(corpus_tsv_path=self.args.corpus_tsv_path, model_path=self.args.retrieval_model_path)
-        return ToolRetrieverNet(url=self.args.llama_server_url)
 
     def get_args(self):
         return self.args
@@ -568,9 +544,6 @@ class pipeline_runner:
             llm_forward = ChatGPTFunction(
                 model=model, api_base="http://llms-se.baidu-int.com:8200", openai_key=openai_key
             )
-        elif backbone_model == "davinci":
-            model = "text-davinci-003"
-            llm_forward = Davinci(model=model, openai_key=openai_key)
         elif backbone_model == "toolllama_net":
             llm_forward = ToolLLaMANet(url=self.args.llama_server_url)
         else:
@@ -696,10 +669,7 @@ class pipeline_runner:
                 new_task_list.append(task)
         task_list = new_task_list
         print(f"undo tasks: {len(task_list)}")
-        if self.add_retrieval:
-            retriever = self.get_retriever()
-        else:
-            retriever = None
+        retriever = None
         if self.args.num_thread == 1:
             for k, task in enumerate(task_list):
                 print(f"process[{self.process_id}] doing task {k}/{len(task_list)}: real_task_id_{task[2]}")
