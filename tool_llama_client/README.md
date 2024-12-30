@@ -124,8 +124,10 @@ print(response.text)
 
 这边需要贴我们的模型地址，搞一个目录索引；
 
-### Parameter Description
 
+### Inference answers
+
+Before inferencing the answers, we would like to introduce the parameters
 - **backbone_model**  
 Used to select the type of model，GPT-series models or Open-source models.
   - **chatgpt_function**: GPT-series models
@@ -144,12 +146,12 @@ The six subsets in the benchmark.
    - **G1_category**: The I1-Cat. in the experiments of the paper;
    - **G2_category**: The I2-Cat. in the experiments of the paper;
    - **G1_tool**: The I1-Tool in the experiments of the paper.
+- **llama_model_server_url**
+The url of the tool_llama_server
+  - serial(baseline): http://{ip}:{port}/llama_parse
+  - parallel(ours): http://{ip}:{port}/llama_parse_parallel
 
-run_qa_pipeline_multithread.sh文件里面有很多其他的参数，涉及到openai、toolbench、GPT_MODEL、llama_model_server_url等，都详细解释一下吧，必要的话也可以搞成参数。
-
-### Inference answers
-
-Run the following command to run the inference pipeline:
+Based on the parameter values above, run the following command to inference answers:
 ```bash
 # Inference with ChatGPT model
 sh run_qa_pipeline_multithread.sh ${backbone_model} ${method} ${test_set} ""
@@ -158,7 +160,6 @@ sh run_qa_pipeline_multithread.sh ${backbone_model} ${method} ${test_set} ""
 sh run_qa_pipeline_multithread.sh ${backbone_model} ${method} ${test_set} ${llama_model_server_url}
 ```
 
-最后再给一个我们的方法的示例
 
 ## Performance Evaluation
 First please convert the answer into GPT evaluatable format.
@@ -185,4 +186,3 @@ python step_calculate.py
 python time_token_cost.py
 ```
 
-整体步骤看起来有点乱，按执行顺序来说明吧
