@@ -13,7 +13,7 @@
   - Model Training
 - Inference
   - The Virtual API Server
-  - The Model Server
+  - Infer
 - Performance Evaluation
   - Solvable Pass Rate
   - Solvable Win Rate
@@ -36,7 +36,7 @@ finally merge the dataset into a train dataset.
 
 We provide the dataset [download link](https://huggingface.co/datasets/dongsheng/DTA-Tool) here.
 
-给出数据集下载后存放的位置（因为我们是做了multi转single的处理，这边也贴一个代码然后讲一下吧），然后对应的脚本也需要修改一下。
+data_path 和 eval_data_path 得讲清楚怎么配置
 
 ## Model Training
 ### Base Model
@@ -46,6 +46,9 @@ We here provide the base model download link:
 - Llama-3-8b-hf: https://huggingface.co/meta-llama/Meta-Llama-3-8B
 
 ### Train the model
+
+ 详细地给出脚本重要参数的含义，如：conv_template
+
 ```bash
 # train llama2-7b or llama2-13b 
 sh run_train_llama2.sh ${base_model_dir} ${output_dir}
@@ -122,8 +125,9 @@ print(response.text)
 ```
 ## Infer
 
-这边需要贴我们的模型地址，搞一个目录索引；
+### Infer folder structure
 
+这边需要贴infer目录结构索引，留一个模型文件夹给我就行；
 
 ### Inference answers
 
@@ -146,8 +150,8 @@ The six subsets in the benchmark.
    - **G1_category**: The I1-Cat. in the experiments of the paper;
    - **G2_category**: The I2-Cat. in the experiments of the paper;
    - **G1_tool**: The I1-Tool in the experiments of the paper.
-- **llama_model_server_url**
-The url of the tool_llama_server
+- **llama_model_server_url**  
+The url of the tool_llama_server.
   - serial(baseline): http://{ip}:{port}/llama_parse
   - parallel(ours): http://{ip}:{port}/llama_parse_parallel
 
@@ -158,10 +162,17 @@ sh run_qa_pipeline_multithread.sh ${backbone_model} ${method} ${test_set} ""
 
 # Inference with trained llama model
 sh run_qa_pipeline_multithread.sh ${backbone_model} ${method} ${test_set} ${llama_model_server_url}
+
+# Here is an example for ours method (DTA-llama)
+举一个我们方法的示例吧，带上必要的注释
 ```
 
+tool_root_dir 这个路径不合适吧，改成相对路径吧。是不是放在 data/ 这个路径里的，这个路径感觉很重要，你看是在哪个地方给个 fold structure 吧。
 
 ## Performance Evaluation
+
+各自的sh文件里有一些相对路径，简单介绍一下？或者是来自stabletoolbench给个链接。
+
 1. Convert the answer into GPT evaluatable format.
 ```bash
 sh run_convert_answer.sh ${candidate_dir} 
