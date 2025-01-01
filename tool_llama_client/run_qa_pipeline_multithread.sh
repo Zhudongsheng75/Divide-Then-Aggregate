@@ -1,8 +1,8 @@
 # Please fill the TOOLBENCH_KEY and OPENAI_KEY
 export TOOLBENCH_KEY=""
 export OPENAI_KEY=""
-
 export OPENAI_API_BASE=""
+
 export GPT_MODEL="gpt-3.5-turbo-16k"
 export SERVICE_URL="http://localhost:8080/virtual"
 
