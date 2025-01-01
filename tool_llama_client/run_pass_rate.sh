@@ -1,7 +1,7 @@
 cd  toolbench/tooleval
 export API_POOL_FILE=../../openai_key.json
-export CONVERTED_ANSWER_PATH=../../output/data/model_predictions_converted
-export SAVE_PATH=../../output/data/pass_rate_results
+export CONVERTED_ANSWER_PATH=../../output/model_predictions_converted
+export SAVE_PATH=../../output/pass_rate_results
 mkdir -p ${SAVE_PATH}
 export CANDIDATE_MODEL="$1"
 export EVAL_MODEL=gpt-4-turbo-preview

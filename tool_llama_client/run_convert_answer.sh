@@ -1,6 +1,6 @@
 cd toolbench/tooleval
-export RAW_ANSWER_PATH=../../output/data/answer
-export CONVERTED_ANSWER_PATH=../../output/data/model_predictions_converted
+export RAW_ANSWER_PATH=../../output/answer
+export CONVERTED_ANSWER_PATH=../../output/model_predictions_converted
 export MODEL_NAME="$1"
 
 for test_set in G1_category G2_category G1_tool G1_instruction G2_instruction G3_instruction; do

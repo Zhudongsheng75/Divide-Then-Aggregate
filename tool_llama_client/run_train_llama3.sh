@@ -3,7 +3,7 @@ output_dir=$2
 
 torchrun --nproc_per_node=8 --master_port=20002 toolbench/train/train_llama3.py \
     --model_name_or_path "${llama3_base_model_path}"  \
-    --data_path  data/20240912/merg_train_single.json \
+    --data_path  data/strategy_train_data.json \
     --eval_data_path  data/toolllama_G123_dfs_eval.json \
     --conv_template tool-llama3-parallel \
     --bf16 True \

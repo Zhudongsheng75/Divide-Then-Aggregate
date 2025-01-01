@@ -34,9 +34,9 @@ The dataset is refined from the train data in ToolBench. We fixed the error step
 if the tool execution step can be parallel, separate the tool execution step into parallelable and non-parallelable and 
 finally merge the dataset into a train dataset.
 
-We provide the dataset [download link](https://huggingface.co/datasets/dongsheng/DTA-Tool) here.
+We provide our train dataset [download link](https://huggingface.co/datasets/dongsheng/DTA-Tool) and
+the eval dataset `toolllama_G123_dfs_eval.json` downloaded from [ToolBench](https://github.com/OpenBMB/ToolBench?tab=readme-ov-file)
 
-data_path 和 eval_data_path 得讲清楚怎么配置
 
 ## Model Training
 ### Base Model
@@ -47,7 +47,15 @@ We here provide the base model download link:
 
 ### Train the model
 
- 详细地给出脚本重要参数的含义，如：conv_template
+There are some important parameters for training:
+- data_path: the train dataset downloaded above
+- eval_data_path: the eval dataset from ToolBench named `toolllama_G123_dfs_eval.json`
+- conv_template: The conversation template for training. For better performance, we split each 
+multi-turn conversation in the dataset into single-turn conversations and mask the output of the last assistant response.
+Here we have to kinds of conversation templates for llama2 and llama3 respectively to adapt to their different
+tokenization:
+  - llama2: tool-llama-single-round
+  - llama3: tool-llama3-parallel
 
 ```bash
 # train llama2-7b or llama2-13b 
@@ -123,11 +131,44 @@ headers = {
 response = requests.post(url, headers=headers, data=json.dumps(data))
 print(response.text)
 ```
-## Infer
+## Inference and Evaluation
 
-### Infer folder structure
+### output folder structure
+To running the inference, we need to prepare the data as following:
+```
+├── /data/
+│  └── /toolenv/
+```
+The overall output structure:
+```
+output/
+├── answer/
+│   ├── chatgpt_function_CoT@1
+│   │   ├── G1_instruction/
+│   │   │   ├── 28_CoT@1.json
+│   │   │   └── 100_CoT@1.json
+│   │   ├── G2_instruction/
+│   │   ├── G3_instruction/
+│   │   ├── G1_category/
+│   │   ├── G2_category/
+│   │   └── G1_tool/
+│   └── toollama_net_DFS_woFilter_w2_llama2_7b/
+│   │   ├── .../
+│   │   └── .../
+│   │      ├── 28_DFS_woFilter_w2_llama2_7b.json
+│   │      └── 100_DFS_woFilter_w2_llama2_7b.json
+├── model_predictions_converted/
+│   ├── chatgpt_function_CoT@1/
+│   └── toollama_net_DFS_woFilter_w2_llama2_7b/
+├── pass_rate_results/
+│   ├── chatgpt_function_CoT@1/
+│   └── toollama_net_DFS_woFilter_w2_llama2_7b/
+├── preference_results
+│   ├── G1_instructio/
+│   ├── .../
+└── └── G1_tool/
+```
 
-这边需要贴infer目录结构索引，留一个模型文件夹给我就行；
 
 ### Inference answers
 
@@ -164,14 +205,10 @@ sh run_qa_pipeline_multithread.sh ${backbone_model} ${method} ${test_set} ""
 sh run_qa_pipeline_multithread.sh ${backbone_model} ${method} ${test_set} ${llama_model_server_url}
 
 # Here is an example for ours method (DTA-llama)
-举一个我们方法的示例吧，带上必要的注释
+sh run_qa_pipeline_multithread.sh toolllama_net DFS_parallel_llama_woFilter_w2 http://10.17.202.221:8876/llama_parse_parallel
 ```
 
-tool_root_dir 这个路径不合适吧，改成相对路径吧。是不是放在 data/ 这个路径里的，这个路径感觉很重要，你看是在哪个地方给个 fold structure 吧。
-
-## Performance Evaluation
-
-各自的sh文件里有一些相对路径，简单介绍一下？或者是来自stabletoolbench给个链接。
+### Performance Evaluation
 
 1. Convert the answer into GPT evaluatable format.
 ```bash
