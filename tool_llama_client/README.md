@@ -11,13 +11,17 @@
 - Train
   - Dataset
   - Model Training
+    - Base Model
+    - Train the model
 - Inference
   - The Virtual API Server
-  - Infer
-- Performance Evaluation
-  - Solvable Pass Rate
-  - Solvable Win Rate
-  - Time and Token Cost
+    - The folder structure
+    - Running the server
+    - Testing the Server
+  - Inference and Evaluation
+    - output folder structure
+    - Inference answers
+    - Performance Evaluation
 
 Welcome to **Divide-Then-Aggregate**: An Efficient Tool Learning Method via Parallel Tool Invocation.
 
@@ -30,13 +34,11 @@ cost, and generalization ability.
 
 # Train
 ## Dataset
-The dataset is refined from the train data in ToolBench. We fixed the error steps and use ChatGPT to recognize 
+The dataset is refined from the train data in ToolBench. We fix the error steps and use ChatGPT to recognize 
 if the tool execution step can be parallel, separate the tool execution step into parallelable and non-parallelable and 
 finally merge the dataset into a train dataset.
 
-We provide our train dataset [download link](https://huggingface.co/datasets/dongsheng/DTA-Tool) and
-the eval dataset `toolllama_G123_dfs_eval.json` downloaded from [ToolBench](https://github.com/OpenBMB/ToolBench?tab=readme-ov-file)
-
+We provide our train dataset [download link](https://huggingface.co/datasets/dongsheng/DTA-Tool).
 
 ## Model Training
 ### Base Model
@@ -49,10 +51,10 @@ We here provide the base model download link:
 
 There are some important parameters for training:
 - data_path: the train dataset downloaded above
-- eval_data_path: the eval dataset from ToolBench named `toolllama_G123_dfs_eval.json`
+- eval_data_path: the eval dataset downloads from the `Data Release` section of [ToolBench](https://github.com/OpenBMB/ToolBench?tab=readme-ov-file) named `toolllama_G123_dfs_eval.json`. However, since this part of the data has not been parallelized, it is not recommended to refer to the results of the eval_data.
 - conv_template: The conversation template for training. For better performance, we split each 
 multi-turn conversation in the dataset into single-turn conversations and mask the output of the last assistant response.
-Here we have to kinds of conversation templates for llama2 and llama3 respectively to adapt to their different
+Here we have to kinds of conversation templates for llama2 and llama3 respectively to adapt to their different，
 tokenization:
   - llama2: tool-llama-single-round
   - llama3: tool-llama3-parallel
@@ -139,6 +141,8 @@ To running the inference, we need to prepare the data as following:
 ├── /data/
 │  └── /toolenv/
 ```
+`toolenv` is also downloaded from the `Data Release` of [ToolBench](https://github.com/OpenBMB/ToolBench?tab=readme-ov-file).
+
 The overall output structure:
 ```
 output/
@@ -209,6 +213,8 @@ sh run_qa_pipeline_multithread.sh toolllama_net DFS_parallel_llama_woFilter_w2 h
 ```
 
 ### Performance Evaluation
+
+This part of the code mainly comes from the StableToolEval section within [StableToolBench](https://github.com/THUNLP-MT/StableToolBench). The relevant configurations can be resolved by referring to the corresponding documents.
 
 1. Convert the answer into GPT evaluatable format.
 ```bash
