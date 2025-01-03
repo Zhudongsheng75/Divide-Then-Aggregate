@@ -75,7 +75,7 @@ We use the  [StableToolBench](https://github.com/THUNLP-MT/StableToolBench/tree/
 2. Call the real api server. If fails, turn to step 3.
 3. Call the gpt-4-turbo-preview model to simulate the response.
 
-#### The folder structure
+### The folder structure
 ```
 ├── /virtual_server/
 │  ├── /tools/
@@ -87,7 +87,7 @@ We use the  [StableToolBench](https://github.com/THUNLP-MT/StableToolBench/tree/
 │  ├── utils.py
 ```
 
-#### Running the server
+### Running the server
 You need to first specify your configurations in `server/config.yml` before running the server. Parameters needed are:
  - `api_key`: The API key for OpenAI models.
  - `api_base`: The API base for OpenAI models if you are using Azure.
