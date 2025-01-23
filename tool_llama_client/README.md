@@ -54,8 +54,7 @@ There are some important parameters for training:
 - eval_data_path: the eval dataset downloads from the `Data Release` section of [ToolBench](https://github.com/OpenBMB/ToolBench?tab=readme-ov-file) named `toolllama_G123_dfs_eval.json`. However, since this part of the data has not been parallelized, it is not recommended to refer to the results of the eval_data.
 - conv_template: The conversation template for training. For better performance, we split each 
 multi-turn conversation in the dataset into single-turn conversations and mask the output of the last assistant response.
-Here we have to kinds of conversation templates for llama2 and llama3 respectively to adapt to their different，
-tokenization:
+Here we have to kinds of conversation templates for llama2 and llama3 respectively to adapt to their different tokenization:
   - llama2: tool-llama-single-round
   - llama3: tool-llama3-parallel
 
