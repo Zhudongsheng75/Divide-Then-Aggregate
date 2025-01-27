@@ -6,6 +6,9 @@
 
 </div>
 
+This project is from the paper "[Divide-Then-Aggregate: An Efficient Tool Learning Method via Parallel Tool Invocation](https://arxiv.org/abs/2501.12432)". 
+It makes a large language model capable of invoking tools and can parallel invoke multiple tools within a single round.
+
 # How to use
 In this project, there are two sub-projects naming `tool_llama_client` and `tool_llama_server`. The `tool_llama_client` contains 
 training scrips and inference parts, while we keep the model prediction part in `tool_llama_server` so that we can deploy the model in a machine with powerful GPUs and run the inference
