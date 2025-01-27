@@ -19,4 +19,4 @@ Please following the `Readme.md` in each sub-project.
 - `tool_llama_server`: deploying the trained model, such as llama2-7b
 
 # License
-This repository's code is under [MIT License](LICENSE). Many codes are based on [ToolBench](https://github.com/OpenBMB/ToolBench) and [StableToolBench](https://github.com/THUNLP-MT/StableToolBench) with  Apache-2.0 License.
+This repository's code is under Apache License 2.0. Many codes are based on [ToolBench](https://github.com/OpenBMB/ToolBench) and [StableToolBench](https://github.com/THUNLP-MT/StableToolBench) with  Apache-2.0 License.
