@@ -1,6 +1,10 @@
 <div align= "center">
-    <h1>DTA-Llama</h1>
+    <h1>Divide-Then-Aggregate</h1>
 </div>
+
+<p align="center">
+  📃 <a href="https://arxiv.org/abs/2501.12432" target="_blank">Paper</a > • 🌐 <a href="https://corn0205.github.io/" target="_blank">Project Page</a > • 🤗 <a href="https://huggingface.co/datasets/dongsheng/DTA-Tool" target="_blank">Dataset (DTA-Tool)</a > • 🤗 <a href="https://huggingface.co/collections/dongsheng/dta-llama-677e753f27b54d84e82a89a3" target="_blank">Model (DTA-Llama)</a ><br>
+</p >
 
 <div align="center">
 
